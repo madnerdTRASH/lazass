@@ -46,5 +46,12 @@ Lazass Library
 * and then when you want to use it on a script
 * source lazass
 
+Fork for glory!
+===
+*Don't like the scripts arrangements! JUST FORK IT and make it your own
+*Want to backup your configuration / scripts FORK IT!
+
+
+
 
 
