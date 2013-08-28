@@ -28,7 +28,7 @@ line_break
 continue_prompt
 
 #Install lighttpd sqlite
-launchscript "Web_Server/Lighttpd/lighttpd"
+launchscript "Web_Server/Lighttpd/install"
 
 installer git-core 
 
