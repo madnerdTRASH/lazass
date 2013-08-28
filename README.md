@@ -41,7 +41,7 @@ And it will show up in the Menu
 Lazass Library
 ===
 * You can also just use Lazass lib which is lazass/lib/lazass
-* Take a look at it http://github.com/maditnerd/lazass/lib/lazass
+* Take a look at it https://github.com/maditnerd/lazass/blob/master/lib/lazass
 * Copy it in /usr/local/bin
 * and then when you want to use it on a script
 * source lazass
