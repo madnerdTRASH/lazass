@@ -1,0 +1,5 @@
+#!/bin/bash
+echo "Generating GitHub Documentation"
+echo "for $1 in $2.txt"
+read
+cat $1 |grep "##"|tr -d '#'|sed -e 's/!/#/g' > $2.txt
