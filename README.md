@@ -13,11 +13,11 @@ How to install
 How to use it
 ===
 * just type:
-`/home/pi/lazass/la`
+`sudo /home/pi/lazass/la`
 
 How to use it anywhere
 ===
-`/home/pi/lazass/la_global`
+`sudo /home/pi/lazass/la_global`
 
 How to uninstall it
 ===
