@@ -17,7 +17,6 @@ How to use it
 
 How to use it anywhere
 ===
-* In /home/pi/lazass
 `/home/pi/lazass/la_global`
 
 How to uninstall it
