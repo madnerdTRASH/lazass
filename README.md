@@ -16,6 +16,7 @@ How to use it
 `/home/pi/lazass/la`
 
 How to use it anywhere
+===
 * In /home/pi/lazass
 `/home/pi/lazass/la_global`
 
