@@ -1,0 +1,51 @@
+#!/bin/bash
+#DESCRIPTION_LAZASS: Install/Update WiringPi
+if [ -f lib/lazass ]
+	then
+	source lib/lazass
+else
+	echo "------------------------"
+	echo "LAZASS was not founded!"
+	echo "Installation aborted!"
+	echo "------------------------"
+	exit 1
+fi
+
+# MAIN PROGRAM
+clear
+verify_root
+description "WiringPi Pi Installation"
+installer git-core
+
+messagebox "Confirm installation path"
+nlbecho "By default WiringPi will be installed in" 
+colecho "/home/pi/code/wiringpi" $ERR
+read -r -p "Install it here? [Y/n] " response
+case $response in
+	[nN])
+	createdir_prompt
+	;;
+
+	*)
+	directory=/home/pi/code
+	createdir $directory
+	;;
+
+esac
+
+	cd $directory
+	gitcloner "WiringPi" git://git.drogon.net/wiringPi wiringPi
+	messagebox "Build wiringpi"
+	console
+	cd $directory/wiringPi/
+	./build
+	cd $path_lazass
+	console
+line_break
+jumpline
+jumpline
+colecho "WiringPi installed!" $WARN
+echo "To compile a C++ program with it"
+echo "Type:"
+colecho "gcc program.cpp -o program -lwiringPi" $PICOLOR
+thank

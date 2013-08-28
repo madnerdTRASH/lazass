@@ -1,0 +1,24 @@
+#!/bin/bash
+#DESCRIPTION_LAZASS: Choose a configuration
+########## LAZASS LIBRARY ###################
+
+if [ -f lib/lazass ]
+        then
+        source lib/lazass
+else
+        echo "------------------------"
+        echo "LAZASS was not founded!"
+        echo "Installation aborted!"
+        echo "------------------------"
+        exit 1
+fi
+
+##########################################
+
+# MAIN PROGRAM ############################
+clear
+verify_root
+description "Configuring Samba"
+installer samba
+confmenu "samba" "/etc/samba/smb.conf"
+thank

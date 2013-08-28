@@ -1,0 +1,49 @@
+#!/bin/bash
+#DESCRIPTION_LAZASS: Install YANA (You are not alone)
+########## LAZASS LIBRARY ###################
+
+if [ -f lib/lazass ]
+	then
+	source lib/lazass
+else
+	echo "------------------------"
+	echo "LAZASS was not founded!"
+	echo "Installation aborted!"
+	echo "------------------------"
+	exit 1
+fi
+
+##########################################
+
+# MAIN PROGRAM ############################
+clear
+#Verify if you are root
+verify_root
+description "Install YANA / Update YANA"
+colecho "This script will install YANA Home Automation" $INFO
+colecho "AND ALL HIS DEPENDANCIES (lighttpd/sqlite)" $ERR
+line_break
+listecho "WARNING: YANA is only available in french (for now)"
+line_break
+continue_prompt
+
+#Install lighttpd sqlite
+launchscript "Web_Server/Lighttpd/lighttpd"
+
+installer git-core 
+
+#Install YANA
+gitcloner "YANA Server" "https://github.com/ldleman/yana-server.git" "/var/www/yana-server"
+
+messagebox "Permissions Settings for webserver"
+chown -R www-data:www-data /var/www/yana-server
+
+#Permissions for electronics
+launchscript "Home_Automation/Yana/yana_perm"
+line_break
+nlbecho "You have install"
+colecho "YANA (You Are Not Alone)" $INFO
+colecho "Go to: http://ipaddress/yana-server"
+colecho "To finished the installation"
+unset noreset
+thank

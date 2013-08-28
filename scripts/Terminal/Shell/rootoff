@@ -1,0 +1,21 @@
+#!/bin/bash
+#DESCRIPTION_LAZASS: Disable Root Account
+if [ -f lib/lazass ]
+	then
+	source lib/lazass
+else
+	echo "------------------------"
+	echo "LAZASS was not founded!"
+	echo "Installation aborted!"
+	echo "------------------------"
+	exit 1
+fi
+
+# MAIN PROGRAM
+clear
+verify_root
+description "ROOT ACCOUNT DISABLER"
+passwd -l root
+line_break
+colecho "ROOT IS DISABLE" $OK
+thank

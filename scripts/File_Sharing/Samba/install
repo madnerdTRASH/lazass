@@ -1,0 +1,18 @@
+#!/bin/bash
+#DESCRIPTION_LAZASS: Install Samba
+########## LAZASS LIBRARY ###################
+
+if [ -f lib/lazass ]
+        then
+        source lib/lazass
+else
+        echo "------------------------"
+        echo "LAZASS was not founded!"
+        echo "Installation aborted!"
+        echo "------------------------"
+        exit 1
+fi
+##########################################
+description "Samba Installer"
+installer samba
+thank

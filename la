@@ -1,0 +1,23 @@
+#!/bin/bash
+# PATH TO LAZASS
+export path_lazass="/home/pi/lazass"
+
+if [[ -n "$1" ]]
+	then
+	export script_dir="$1"
+else
+	export script_dir="Main"
+fi
+
+if [[ -d "$path_lazass/scripts/$script_dir" ]]
+	then
+	cd $path_lazass
+	source lib/lazass
+	mainmenu
+else
+	echo "I can't find LAZASS $script_dir at $path_lazass/scripts/$script_dir ..."
+	echo "List of scripts:"
+	echo "------------------------"
+        cd scripts;ls -d */;cd ..
+    echo "------------------------"
+fi

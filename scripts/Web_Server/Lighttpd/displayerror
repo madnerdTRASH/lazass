@@ -1,0 +1,32 @@
+#!/bin/bash
+#DESCRIPTION_LAZASS: Display PHP Errors
+if [ -f lib/lazass ]
+	then
+	source lib/lazass
+else
+	echo "------------------------"
+	echo "LAZASS was not founded!"
+	echo "Installation aborted!"
+	echo "------------------------"
+	exit 1
+fi
+
+# MAIN PROGRAM
+clear
+verify_root
+description "LIGHTTPD DISPLAY ERROR"
+jumpline
+colecho "This script will modify PHP.ini to display error" $INFO
+backup_prompt /etc/php5/cgi/php.ini
+
+messagebox "Modifying php.ini"
+cat /etc/php5/cgi/php.ini |sed 's/display_errors = Off/display_errors = On/g' > /tmp/php.ini
+cp /tmp/php.ini /etc/php5/cgi/php.ini
+nlbecho "Modification Completed" 
+ok
+line_break
+echo "Extract of /etc/php5/cgi/php.ini"
+console
+cat /etc/php5/cgi/php.ini |grep "display_errors ="
+console
+thank

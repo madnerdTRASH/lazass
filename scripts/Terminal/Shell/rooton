@@ -1,0 +1,29 @@
+#!/bin/bash
+#DESCRIPTION_LAZASS: Enable Root Account
+if [ -f lib/lazass ]
+	then
+	source lib/lazass
+else
+	echo "------------------------"
+	echo "LAZASS was not founded!"
+	echo "Installation aborted!"
+	echo "------------------------"
+	exit 1
+fi
+
+# MAIN PROGRAM
+clear
+verify_root
+description "ROOT ACCOUNT ENABLER"
+messagebox "Password modification"
+nlbecho "Let's put a password to root in order"
+colecho "to activate it" $ERR
+passwd
+messagebox "BASHRC modification"
+echo "You should modify your bashrc to suit your need"
+colecho "Bashrc is loaded when your terminal start" $WARN
+read
+nano /root/.bashrc
+line_break
+colecho "ROOT IS ENABLED" $ERR
+thank

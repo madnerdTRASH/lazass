@@ -1,0 +1,41 @@
+#!/bin/bash
+#DESCRIPTION_LAZASS: Git Push script
+
+if [ -f lib/lazass ]
+	then
+	source lib/lazass
+else
+	echo "------------------------"
+	echo "LAZASS was not founded!"
+	echo "Installation aborted!"
+	echo "------------------------"
+	exit 1
+fi
+
+# MAIN PROGRAM
+clear
+verify_root
+description "Git Auto Pusher"
+colecho "We will create a script name gitpush in /usr/local/bin/" $INFO
+colecho "Instead of doing this:"
+listecho "git add -A"
+listecho "git commit"
+listecho "git push"
+colecho "You will just have to do"
+listecho "gitpush"
+continue_prompt
+messagebox "Creating gitpush"
+cat <<EOF > /usr/local/bin/gitpush &&
+#/bin/bash
+git add -A
+git commit
+git push
+EOF
+nlbecho "Creation of gitpush"
+ok
+messagebox "Make gitpush executable"
+chmod +x /usr/local/bin/gitpush
+nlbecho "Permissions of gitpush"
+ok
+thank
+

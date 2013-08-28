@@ -1,0 +1,56 @@
+#!/bin/bash
+#DESCRIPTION_LAZASS: Install Lighttpd Web Server and SQLite
+if [ -f lib/lazass ]
+	then
+	source lib/lazass
+else
+	echo "------------------------"
+	echo "LAZASS was not founded!"
+	echo "Installation aborted!"
+	echo "------------------------"
+	exit 1
+fi
+
+# MAIN PROGRAM
+clear
+verify_root
+description "LIGHTTPD"
+
+#INSTALL
+installer "lighttpd"
+installer "php5-common"
+installer "php5-cgi"
+installer "php5"
+
+messagebox "Configuring PHP"
+lighty-enable-mod fastcgi-php
+
+messagebox "Set Permissions"
+chown -R www-data:www-data /var/www
+
+description SQLite
+installer "sqlite3"
+installer "libsqlite3-0"
+installer "libsqlite3-dev"
+installer "php5-sqlite"
+
+messagebox "Restarting lighttpd"
+service lighttpd force-reload
+
+messagebox "INSTALLATION FINISHED"
+nlbecho "You have install a"
+colecho "Web server" $OK
+
+nlbecho "You can use"
+nlbecho "SQLite (database)" $OK
+colecho "With it"
+
+jumpline
+
+nlbecho "Directory:" 
+colecho "/var/www" $ERR
+nlbecho "Address:" 
+echo -ne $ERR "http://" 
+nlbecho $(smb_getname)
+thank
+

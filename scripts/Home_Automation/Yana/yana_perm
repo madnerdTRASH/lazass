@@ -1,0 +1,44 @@
+#!/bin/bash
+#DESCRIPTION_LAZASS: Check YANA Permissions
+########## LAZASS LIBRARY ###################
+
+if [ -f lib/lazass ]
+	then
+	source lib/lazass
+else
+	echo "------------------------"
+	echo "LAZASS was not founded!"
+	echo "Installation aborted!"
+	echo "------------------------"
+	exit 1
+fi
+
+##########################################
+
+# MAIN PROGRAM ############################
+clear
+
+#Verify if you are root
+verify_root
+
+description "Permissions for YANA"
+nlbecho "This programs will give"
+colecho "YANA" $INFO
+colecho "ROOT PERMISSIONS TO ALL C++ PROGRAMS!" $ERR
+nlbecho "in order to control GPIO"
+colecho "(Electronics devices)" $INFO
+messagebox "Search and Modify Permissions"
+console
+chown -R www-data:www-data /var/www
+unset a i
+while IFS= read -r -d $'\0' file; do
+  
+	file=$(echo $file |sed 's/.cpp//')
+	echo "$file"
+	chown root:www-data $file
+	chmod +s $file
+done < <(find /var/www -name *.cpp -type f -print0)
+console
+nlbecho "GPIO Access to webserver"
+ok
+thank

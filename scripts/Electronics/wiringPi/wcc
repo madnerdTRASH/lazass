@@ -1,0 +1,36 @@
+#!/bin/bash
+#DESCRIPTION_LAZASS: Compile with WiringPi
+if [ -f lib/lazass ]
+	then
+	source lib/lazass
+else
+	echo "------------------------"
+	echo "LAZASS was not founded!"
+	echo "Installation aborted!"
+	echo "------------------------"
+	exit 1
+fi
+
+# MAIN PROGRAM
+clear
+verify_root
+description "Easy Compile C++ with WiringPi"
+colecho "We will create a script name wcc in /usr/local/bin/" $INFO
+colecho "Instead of doing this:"
+listecho "gcc program.cpp -o program -lwiringPi"
+colecho "You will just have to do"
+listecho "wcc program"
+continue_prompt
+messagebox "Creating wcc"
+cat <<EOF > /usr/local/bin/wcc &&
+#/bin/bash
+gcc \$1.cpp -o \$1 -lwiringPi
+EOF
+nlbecho "Creation of wcc"
+ok
+messagebox "Make wcc executable"
+chmod +x /usr/local/bin/wcc
+nlbecho "Permissions of wcc"
+ok
+thank
+
