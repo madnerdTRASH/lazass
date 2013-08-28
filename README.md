@@ -48,8 +48,8 @@ Lazass Library
 
 Oh my forking god!
 ===
-*Don't like the scripts arrangements! JUST FORK IT and make it your own
-*Want to backup your configuration / scripts FORK IT!
+* Don't like the scripts arrangements! JUST FORK IT and make it your own
+* Want to backup your configuration / scripts FORK IT!
 
 
 
