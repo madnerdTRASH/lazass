@@ -1,6 +1,6 @@
 #!/bin/bash
 # PATH TO LAZASS
-export path_lazass="/home/pi/wizard"
+export path_lazass="/home/pi/lazass"
 
 if [[ -n "$1" ]]
 	then
