@@ -1,4 +1,5 @@
 #!/bin/bash
+#DESCRIPTION_LAZASS: Raspberry Pi Configuration
 if [ -f lib/lazass ]
 	then
 	source lib/lazass
@@ -10,9 +11,9 @@ else
 	exit 1
 fi
 
+# MAIN PROGRAM
+clear
 verify_root
-description "Install LAZASS Globally"
-path=$(pwd)
-rm -f /usr/local/bin/la
-ln -sv $path/la /usr/local/bin/la 
-colecho "Lazass can now be access from anywhere" $OK
+description "Launching Raspberry Pi Configuration"
+raspi-config
+thank

@@ -1,12 +1,12 @@
 #!/bin/bash
 # PATH TO LAZASS
-export path_lazass="/home/pi/lazass"
+export path_lazass="/home/pi/wizard"
 
 if [[ -n "$1" ]]
 	then
 	export script_dir="$1"
 else
-	export script_dir="Main"
+	export script_dir="Main_Menu"
 fi
 
 if [[ -d "$path_lazass/scripts/$script_dir" ]]

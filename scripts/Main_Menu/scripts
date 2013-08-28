@@ -9,10 +9,4 @@ else
 	echo "------------------------"
 	exit 1
 fi
-
-verify_root
-description "Install LAZASS Globally"
-path=$(pwd)
-rm -f /usr/local/bin/la
-ln -sv $path/la /usr/local/bin/la 
-colecho "Lazass can now be access from anywhere" $OK
+scriptsmenu

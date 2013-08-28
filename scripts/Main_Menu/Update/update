@@ -1,0 +1,28 @@
+#!/bin/bash
+#!/bin/bash
+#DESCRIPTION_LAZASS: Update LAZASS
+if [ -f lib/lazass ]
+	then
+	source lib/lazass
+else
+	echo "------------------------"
+	echo "LAZASS was not founded!"
+	echo "Installation aborted!"
+	echo "------------------------"
+	exit 1
+fi
+
+clear
+verify_root
+messagebox "Update LAZASS"
+console
+git pull
+gitpull_error=$? 
+console
+if [ $gitpull_error == 128 ]
+	then
+	error_box $gitpull_error
+	colecho "You can't update LAZASS if you didn't clone it with git clone!" $ERR
+	error_box $gitpull_error
+fi
+thank
