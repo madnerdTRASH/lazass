@@ -154,7 +154,7 @@ function thank () {
 	echo "----------------------------"
 	echo -ne $NORMAL
 	read
-	mainmenu
+	exit 0
 	fi
 }
 
@@ -205,7 +205,7 @@ aptget_error() {
 				echo "You should fixed APT-GET MANUALLY BEFORE RETRY"
 				error_box $apterror
 				read
-				mainmenu
+				exit 0
 				;;
 			esac
 		;;
@@ -219,7 +219,7 @@ aptget_error() {
 		error_box $apterror
 		echo -ne $NORMAL
 		read
-		mainmenu
+		exit 0
 		;;
 			
 		*)
@@ -231,7 +231,7 @@ aptget_error() {
 			echo -ne $NORMAL
 				case $response in
 					[yY])
-					mainmnenu
+					exit 0
 					;;
 				esac
 		;;
@@ -316,7 +316,7 @@ launchscript() {
 		echo "Cannot launch scripts/$1"
 		error_box $error_launchscript
 		read
-		mainmenu
+		exit 0
 	fi
 }
 
@@ -388,7 +388,7 @@ mkdir -p $1
 		echo "CANNOT CREATE DIRECTORY"
 		error_box " "
 		read
-		mainmenu
+		exit 0
 	fi
 fi
 }
@@ -433,8 +433,7 @@ continue_prompt() {
 				echo ""
 				colecho "Installation stopped" $info
 				echo -ne $NORMAL
-				read
-				mainmenu
+				exit 0
 				;;
 			esac
 }
@@ -455,7 +454,7 @@ case $confirmation in
 				echo "INSTALLATION ABORTED"
 				error_box 1
 				read
-				mainmenu
+				exit 0
 				;;
 				*)
 				jumpline
@@ -540,6 +539,7 @@ response=$(whiptail --backtitle "$AUTHOR - $LICENSE - Scripts menu" --title "LAZ
 case $response in
 				"BACK")
 				la "$script_dir"
+				exit 0
 				;;
 				"")
 				colecho "Exiting Menu" $INFO
@@ -587,6 +587,7 @@ conf_file=$(whiptail --backtitle "$AUTHOR - $LICENSE - CONFIGURATION $conf_dir" 
 case $conf_file in
 				"BACK")
 				la "$script_dir"
+				exit 0
 				;;
 				"")
 				colecho "Exiting Menu" $INFO
