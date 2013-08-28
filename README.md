@@ -13,19 +13,18 @@ How to install
 How to use it
 ===
 * just type:
-`/home/pi/lazass/la`
+`sudo /home/pi/lazass/la`
 
 How to use it anywhere
 ===
-* In /home/pi/lazass
-`/home/pi/lazass/la_global`
+`sudo /home/pi/lazass/la_global`
 
 How to uninstall it
 ===
 rm -rf /home/pi/lazass
 rm /usr/local/bin/la
 
-How to add scripts
+How to add/modify scripts arrangements
 ===
 * Scripts are in lazass/scripts/
 * The scripts are arranged this way:
@@ -34,9 +33,13 @@ How to add scripts
     * Scripts Submenu 1/script2
     * Scripts Submenu 2/script1
 
-For example you want to make an install script for apache
-create a script at /lazass/scripts/Web_Server/apache/install
-And it will show up in the Menu
+* For example you want to make an install script for apache
+* create a script at /lazass/scripts/Web_Server/apache/install
+* And it will show up in the Menu
+
+Why the Main Menu is so empty
+===
+So you can copy in it the scripts you use the most!
 
 Lazass Library
 ===
@@ -45,6 +48,13 @@ Lazass Library
 * Copy it in /usr/local/bin
 * and then when you want to use it on a script
 * source lazass
+
+Oh my forking god!
+===
+* Don't like the scripts arrangements? JUST FORK IT and make it your own
+* Want to backup your configuration / scripts FORK IT!
+
+
 
 
 
