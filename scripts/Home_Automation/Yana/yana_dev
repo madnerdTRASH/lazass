@@ -1,0 +1,54 @@
+#!/bin/bash
+#DESCRIPTION_LAZASS: Install yana fork
+########## LAZASS LIBRARY ###################
+
+if [ -f lib/lazass ]
+	then
+	source lib/lazass
+else
+	echo "------------------------"
+	echo "LAZASS was not founded!"
+	echo "Installation aborted!"
+	echo "------------------------"
+	exit 1
+fi
+
+##########################################
+
+# MAIN PROGRAM ############################
+clear
+#Verify if you are root
+verify_root
+description "Install YANA / Update YANA"
+colecho "This script will install YANA Home Automation" $INFO
+colecho "AND ALL HIS DEPENDANCIES (lighttpd/sqlite)" $ERR
+line_break
+
+read -r -p "User (ex:maditnerd):" user
+read -r -p "Branch (ex:i18n):" branch
+read -r -p "Where (ex:yana)" where
+
+colecho "Install YANA fork by $user branch $branch in /var/www/$where" $ERR
+continue_prompt
+
+#Install lighttpd sqlite
+launchscript "Web_Server/Lighttpd/install"
+
+installer git-core 
+
+
+#Install YANA
+gitcloner "YANA Server" "-b $branch https://github.com/$user/yana-server.git" "/var/www/$where"
+
+messagebox "Permissions Settings for webserver"
+chown -R www-data:www-data /var/www/$where
+
+#Permissions for electronics
+launchscript "Home_Automation/Yana/yana_perm"
+line_break
+nlbecho "You have install"
+colecho "YANA (You Are Not Alone)" $INFO
+colecho "Go to: http://ipaddress/$where"
+colecho "To finished the installation"
+unset noreset
+thank

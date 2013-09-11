@@ -1,0 +1,32 @@
+#!/bin/bash
+#DESCRIPTION_LAZASS: Secure YANA
+########## LAZASS LIBRARY ###################
+
+if [ -f lib/lazass ]
+	then
+	source lib/lazass
+else
+	echo "------------------------"
+	echo "LAZASS was not founded!"
+	echo "Installation aborted!"
+	echo "------------------------"
+	exit 1
+fi
+
+##########################################
+
+# MAIN PROGRAM ############################
+clear
+#Verify if you are root
+verify_root
+description "Securing Yana Installation"
+colecho "This script will erase install.php" $INFO
+line_break
+console
+cd /var/www;ls -d */ |grep "yana"
+console
+read -p "Choose the directory of YANA Server:" yana
+console
+rm -vi /var/www/$yana/install.php
+console
+thank

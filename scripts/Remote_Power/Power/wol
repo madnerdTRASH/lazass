@@ -1,0 +1,19 @@
+#!/bin/bash
+#DESCRIPTION_LAZASS: Wake on LAN
+if [ -f lib/lazass ]
+	then
+	source lib/lazass
+else
+	echo "------------------------"
+	echo "LAZASS was not founded!"
+	echo "Installation aborted!"
+	echo "------------------------"
+	exit 1
+fi
+
+clear
+verify_root
+description "Wake on Lan"
+read -r -p "MAC ADRESS:" MAC
+wakeonlan $MAC
+thank

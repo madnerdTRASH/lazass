@@ -1,0 +1,19 @@
+#!/bin/bash
+#DESCRIPTION_LAZASS: Tools for controlling Windows Client
+if [ -f lib/lazass ]
+	then
+	source lib/lazass
+else
+	echo "------------------------"
+	echo "LAZASS was not founded!"
+	echo "Installation aborted!"
+	echo "------------------------"
+	exit 1
+fi
+
+clear
+verify_root
+description "Tools for Wake on Lan / Remote Windows Shutdown"
+installer samba-common-bin
+installer wakeonlan
+thank

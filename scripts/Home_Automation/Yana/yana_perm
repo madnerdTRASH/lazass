@@ -36,7 +36,7 @@ while IFS= read -r -d $'\0' file; do
 	file=$(echo $file |sed 's/.cpp//')
 	echo "$file"
 	chown root:www-data $file
-	chmod +s $file
+	chmod +sx $file
 done < <(find /var/www -name *.cpp -type f -print0)
 console
 nlbecho "GPIO Access to webserver"

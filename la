@@ -2,22 +2,31 @@
 # PATH TO LAZASS
 export path_lazass="/home/pi/lazass"
 
+
+
 if [[ -n "$1" ]]
 	then
 	export script_dir="$1"
-else
-	export script_dir="Main_Menu"
-fi
-
 if [[ -d "$path_lazass/scripts/$script_dir" ]]
 	then
 	cd $path_lazass
 	source lib/lazass
 	mainmenu
 else
+	if [[ $1 != "help" ]]
+	then
 	echo "I can't find LAZASS $script_dir at $path_lazass/scripts/$script_dir ..."
+	echo "Type la help or la"
+	else
 	echo "List of scripts:"
 	echo "------------------------"
-        cd scripts;ls -d */;cd ..
+        cd $path_lazass/scripts;ls -d */
     echo "------------------------"
+	fi
 fi
+else
+cd $path_lazass
+source lib/lazass
+scriptsmenu
+fi
+

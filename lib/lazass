@@ -621,3 +621,13 @@ case $conf_file in
 				;;
 esac
 }
+
+display_gpio() {
+	line_break
+	echo "5V  5V  GND 15  16  1   GND 4   5   GND 6   10  11 "
+    echo "o   o   o   o   o   o   o   o   o   o   o   o   o  "
+    echo "o   o   o   o   o   o   o   o   o   o   o   o   o  "
+    echo "3V  8   9   7   GND 0   2   3   3V  12  13  14  GND"
+    colecho "P1" $OK
+    line_break
+}

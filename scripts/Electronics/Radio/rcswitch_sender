@@ -1,0 +1,25 @@
+#!/bin/bash
+#DESCRIPTION_LAZASS: Test a Radio Transmitter
+if [ -f lib/lazass ]
+	then
+	source lib/lazass
+else
+	echo "------------------------"
+	echo "LAZASS was not founded!"
+	echo "Installation aborted!"
+	echo "------------------------"
+	exit 1
+fi
+
+# MAIN PROGRAM
+clear
+verify_root
+description "433/315Mhz Radio Sender Tester"
+display_gpio
+read -p "GPIO:" gpio
+read -p "Code to send (decimal):" code
+console
+bin/rfsend $gpio $code
+console
+thank
+

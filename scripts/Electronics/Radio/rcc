@@ -1,0 +1,36 @@
+#!/bin/bash
+#DESCRIPTION_LAZASS: Compile with RCSwitch
+if [ -f lib/lazass ]
+	then
+	source lib/lazass
+else
+	echo "------------------------"
+	echo "LAZASS was not founded!"
+	echo "Installation aborted!"
+	echo "------------------------"
+	exit 1
+fi
+
+# MAIN PROGRAM
+clear
+verify_root
+description "Easy Compile C++ with WiringPi and RCSwitch"
+colecho "We will create a script name rcc in /usr/local/bin/" $INFO
+colecho "Instead of doing this:"
+listecho "gcc program.cpp RCSwitch.cpp -o program -lwiringPi"
+colecho "You will just have to do"
+listecho "rcc program"
+continue_prompt
+messagebox "Creating rcc"
+cat <<EOF > /usr/local/bin/rcc &&
+#/bin/bash
+gcc $1.cpp RCSwitch.cpp -o $1 -lwiringPi
+EOF
+nlbecho "Creation of rcc"
+ok
+messagebox "Make rcc executable"
+chmod +x /usr/local/bin/wcc
+nlbecho "Permissions of rcc"
+ok
+thank
+

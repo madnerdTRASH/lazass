@@ -1,1 +1,1 @@
-Home Automation (french)
+Home Automation

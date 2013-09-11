@@ -5,7 +5,6 @@
 *  Works great on Android ConnectBot ! Unleash the power of Bash from your mobile!
 *  Can be easilly reuse to make your own scripts manager 
 *  Only depends on two files : lazass and la
-  
 
 ## Install
 
@@ -38,3 +37,9 @@
 
 ### Use LAZASS Library
 [LAZASS Library Documentation](https://github.com/maditnerd/lazass/wiki/LAZASS-Library-1.6)
+
+### Licence of programs used:
+For rfsend and rftester:
+RCSwitch-pi by Ruben Jenster (from RCSwitch by Suat Özgür)
+-- GNU Lesser V2.1 (or later)
+https://github.com/r10r/rcswitch-pi

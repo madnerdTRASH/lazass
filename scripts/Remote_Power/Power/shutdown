@@ -1,0 +1,35 @@
+#!/bin/bash
+#DESCRIPTION_LAZASS: Samba shutdown
+if [ -f lib/lazass ]
+	then
+	source lib/lazass
+else
+	echo "------------------------"
+	echo "LAZASS was not founded!"
+	echo "Installation aborted!"
+	echo "------------------------"
+	exit 1
+fi
+
+clear
+verify_root
+description "Samba Shutdown"
+colecho "In order to be able to shutdown remotely your computer you'll need" $ERR
+listecho "A user with a password"
+listecho "To execute shutdown.reg"
+line_break
+echo "Windows Registry Editor Version 5.00"
+echo " "
+echo "[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System]"
+echo '"LocalAccountTokenFilterPolicy"=dword:00000001'
+line_break
+read -r -p "IP Address:" IP
+read -r -p "Username:" NAME
+echo -n "Password:" 
+read -s PASSWORD
+echo
+read -r -p "Time before Shutdown (in seconds):" TIME
+console
+net rpc shutdown -I $IP -C "Shutdown by LAZASS" -t $TIME -U "$NAME%$PASSWORD"
+console
+thank
