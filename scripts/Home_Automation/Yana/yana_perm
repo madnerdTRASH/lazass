@@ -29,6 +29,7 @@ nlbecho "in order to control GPIO"
 colecho "(Electronics devices)" $INFO
 messagebox "Search and Modify Permissions"
 console
+chmod -R 755 /var/www
 chown -R www-data:www-data /var/www
 unset a i
 while IFS= read -r -d $'\0' file; do

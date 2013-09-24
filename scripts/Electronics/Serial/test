@@ -1,0 +1,29 @@
+#!/bin/bash
+#DESCRIPTION_LAZASS: Serial Tester
+########## LAZASS LIBRARY ###################
+
+if [ -f lib/lazass ]
+	then
+	source lib/lazass
+else
+	echo "------------------------"
+	echo "LAZASS was not founded!"
+	echo "Installation aborted!"
+	echo "------------------------"
+	exit 1
+fi
+
+##########################################
+
+# MAIN PROGRAM ############################
+clear
+#Verify if you are root
+verify_root
+description "Serial Test"
+messagebox "Launching Minicom"
+colecho "We are going to launch minicom to verify if the transmission are correct" $INFO
+colecho "To exit minicom press CTRL-A x" $ERR
+continue_prompt
+installer minicom
+minicom -b 9600 -o -D /dev/ttyAMA0
+thank

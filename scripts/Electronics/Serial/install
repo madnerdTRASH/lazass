@@ -1,0 +1,40 @@
+#!/bin/bash
+#DESCRIPTION_LAZASS: Serial GPIO Activator
+########## LAZASS LIBRARY ###################
+
+if [ -f lib/lazass ]
+	then
+	source lib/lazass
+else
+	echo "------------------------"
+	echo "LAZASS was not founded!"
+	echo "Installation aborted!"
+	echo "------------------------"
+	exit 1
+fi
+
+##########################################
+
+# MAIN PROGRAM ############################
+clear
+#Verify if you are root
+verify_root
+description "Serial GPIO activator"
+messagebox "Modify cmdline"
+backup_prompt /boot/cmdline.txt
+echo "dwc_otg.lpm_enable=0 console=tty1 root=/dev/mmcblk0p2 rootfstype=ext4 elevator=deadline rootwait" > /boot/cmdline.txt
+messagebox "Comment last line of inittab"
+backup_prompt /etc/inittab
+cat /etc/inittab|sed s'/T0:23/#T0:23/' > /tmp/inittab
+cp /tmp/inittab /etc/inittab
+messagebox "Give www-data access to serial"
+usermod -a -G dialout www-data
+console
+groups www-data
+console
+installer python-serial
+colecho "In order for the change to take effect we will reboot!" $ERR
+continue_prompt
+reboot
+thank
+
