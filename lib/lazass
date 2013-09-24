@@ -530,7 +530,7 @@ menu_options[ $i ]="BACK"
 (( i++ ))
 menu_options[ $i ]="   <----"
 
-response=$(whiptail --backtitle "$AUTHOR - $LICENSE - Scripts menu" --title "LAZASS MENU $VER" --menu "Scripts menu" 0 0 0 "${menu_options[@]}"  3>&1 1>&2 2>&3)
+response=$(whiptail --backtitle "$AUTHOR - $LICENSE - Scripts menu - DOC: smarturl.it/lazass" --title "LAZASS MENU $VER" --menu "Scripts menu" 0 0 0 "${menu_options[@]}"  3>&1 1>&2 2>&3)
 
 case $response in
 				"BACK")
@@ -579,7 +579,7 @@ menu_options[ $i ]="BACK"
 (( i++ ))
 menu_options[ $i ]="   <----"
 
-conf_file=$(whiptail --backtitle "$AUTHOR - $LICENSE - CONFIGURATION $conf_dir - DOC: smarturl.it/lazass" --title "LAZASS MENU $VER" --menu "CONFIGURATION $conf_dir" 0 0 0 "${menu_options[@]}"  3>&1 1>&2 2>&3)
+conf_file=$(whiptail --backtitle "$AUTHOR - $LICENSE - CONFIGURATION $conf_dir - DOC: smarturl.it/lazass" --title "LAZASS MENU $VER" --menu "CONFIGURATION $conf_dir - DOC: smarturl.it/lazass" 0 0 0 "${menu_options[@]}"  3>&1 1>&2 2>&3)
 
 case $conf_file in
 				"BACK")
