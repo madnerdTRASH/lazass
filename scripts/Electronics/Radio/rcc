@@ -29,7 +29,7 @@ EOF
 nlbecho "Creation of rcc"
 ok
 messagebox "Make rcc executable"
-chmod +x /usr/local/bin/wcc
+chmod +x /usr/local/bin/rcc
 nlbecho "Permissions of rcc"
 ok
 thank
