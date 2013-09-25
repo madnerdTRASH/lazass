@@ -24,7 +24,7 @@ continue_prompt
 messagebox "Creating rcc"
 cat <<EOF > /usr/local/bin/rcc &&
 #/bin/bash
-gcc $1.cpp RCSwitch.cpp -o $1 -lwiringPi
+gcc \$1.cpp RCSwitch.cpp -o \$1 -lwiringPi
 EOF
 nlbecho "Creation of rcc"
 ok
