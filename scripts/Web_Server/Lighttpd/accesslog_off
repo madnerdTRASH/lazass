@@ -1,0 +1,22 @@
+#!/bin/bash
+#DESCRIPTION_LAZASS: Disable access log
+if [ -f lib/lazass ]
+	then
+	source lib/lazass
+else
+	echo "------------------------"
+	echo "LAZASS was not founded!"
+	echo "Installation aborted!"
+	echo "------------------------"
+	exit 1
+fi
+
+# MAIN PROGRAM
+clear
+verify_root
+description "DISABLE ACCESS LOG"
+console
+rm /etc/lighttpd/conf-enabled/10-accesslog.conf
+console
+restarter lighttpd
+thank

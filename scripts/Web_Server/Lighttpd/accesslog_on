@@ -1,0 +1,24 @@
+#!/bin/bash
+#DESCRIPTION_LAZASS: Activate access log
+if [ -f lib/lazass ]
+	then
+	source lib/lazass
+else
+	echo "------------------------"
+	echo "LAZASS was not founded!"
+	echo "Installation aborted!"
+	echo "------------------------"
+	exit 1
+fi
+
+# MAIN PROGRAM
+clear
+verify_root
+description "ACTIVATE ACCESS LOG"
+console
+ln -sv /etc/lighttpd/conf-available/10-accesslog.conf /etc/lighttpd/conf-enabled/
+console
+restarter lighttpd
+nlbecho "access.log : " $ERR
+colecho "/var/log/lighttpd/access.log" $WARN
+thank
