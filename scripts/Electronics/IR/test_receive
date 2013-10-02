@@ -1,0 +1,39 @@
+#!/bin/bash
+#DESCRIPTION_LAZASS: IR Receiver Test
+########## LAZASS LIBRARY ###################
+
+if [ -f lib/lazass ]
+	then
+	source lib/lazass
+else
+	echo "------------------------"
+	echo "LAZASS was not founded!"
+	echo "Installation aborted!"
+	echo "------------------------"
+	exit 1
+fi
+
+##########################################
+
+# MAIN PROGRAM ############################
+clear
+#Verify if you are root
+verify_root
+description "Test IR Receiver"
+messagebox "Stopping LIRC service and killing mode2 process"
+console
+service lirc stop
+killall -9 mode2
+killall -9 irrecord
+console
+messagebox "LIRC RAW MODE"
+colecho "LIRC will now show you raw codes" $WARN
+colecho "Just pressed a button on an IR remote to test the IR receiver" $WARN
+colecho "Press CTRL-Z to exit" $ERR
+continue_prompt
+mode2 -d /dev/lirc0
+messagebox "Starting LIRC service"
+console
+service lirc start
+console
+thank

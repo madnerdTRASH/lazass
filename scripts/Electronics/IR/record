@@ -1,0 +1,37 @@
+#!/bin/bash
+#DESCRIPTION_LAZASS: IR Recorder (Raw)
+########## LAZASS LIBRARY ###################
+
+if [ -f lib/lazass ]
+	then
+	source lib/lazass
+else
+	echo "------------------------"
+	echo "LAZASS was not founded!"
+	echo "Installation aborted!"
+	echo "------------------------"
+	exit 1
+fi
+
+##########################################
+
+# MAIN PROGRAM ############################
+clear
+#Verify if you are root
+verify_root
+description "Test IR Receiver"
+messagebox "Stopping LIRC service and killing mode2 process"
+console
+service lirc stop
+killall -9 mode2
+killall -9 irrecord
+console
+messagebox "LIRC RAW MODE"
+continue_prompt
+rm ~/irtmp.conf
+irrecord -f -n -d /dev/lirc0 ~/irtmp.conf
+messagebox "Starting LIRC service"
+console
+service lirc start
+console
+thank

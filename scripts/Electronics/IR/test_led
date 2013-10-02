@@ -1,0 +1,29 @@
+#!/bin/bash
+#DESCRIPTION_LAZASS: IR LED Test
+########## LAZASS LIBRARY ###################
+
+if [ -f lib/lazass ]
+	then
+	source lib/lazass
+else
+	echo "------------------------"
+	echo "LAZASS was not founded!"
+	echo "Installation aborted!"
+	echo "------------------------"
+	exit 1
+fi
+
+##########################################
+
+# MAIN PROGRAM ############################
+clear
+#Verify if you are root
+verify_root
+description "Test IR LED"
+messagebox "Turn ON IR LED"
+gpio write 3 1
+colecho "Take a camera and see if the LED is ON" $ERR
+read
+messagebox "Turn OFF IR LED"
+gpio write 3 0
+thank
