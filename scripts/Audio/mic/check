@@ -1,0 +1,27 @@
+#!/bin/bash
+#DESCRIPTION_LAZASS: Mic Check
+
+if [ -f lib/lazass ]
+	then
+	source lib/lazass
+else
+	echo "------------------------"
+	echo "LAZASS was not founded!"
+	echo "Installation aborted!"
+	echo "------------------------"
+	exit 1
+fi
+
+# MAIN PROGRAM
+clear
+verify_root
+description "Test Microphone"
+colecho "We are going to record audio and play it back" $info
+colecho "You'll need a microphone (webcam for example) and speaker plugged in" $ERR
+continue_prompt
+console
+arecord -D plughw:1,0 -d 3 -r 16000 -t wav /tmp/test.wav
+console
+aplay /tmp/test.wav
+console
+thank
