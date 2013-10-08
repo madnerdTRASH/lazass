@@ -1,0 +1,33 @@
+#!/bin/bash
+#DESCRIPTION_LAZASS: Install Google voice synthesis
+########## LAZASS LIBRARY ###################
+if [ -f lib/lazass ]
+        then
+        source lib/lazass
+else
+        echo "------------------------"
+        echo "LAZASS was not founded!"
+        echo "Installation aborted!"
+        echo "------------------------"
+        exit 1
+fi
+##########################################
+description "Download tts from PiAUISuite ?"
+continue_prompt
+installer mpg123
+messagebox "Downloading script"
+console
+wget https://raw.github.com/StevenHickson/PiAUISuite/master/VoiceCommand/tts -O /usr/local/bin/tts
+console
+messagebox "Add tts to /usr/local/bin and change right"
+chmod +x /usr/local/bin/tts
+messagebox "Test tts"
+tts "tts has been succesfully installed"
+clear
+colecho "----------------------------------------------------------------------" $INFO
+nlbecho "For more information on PiAUISuite go to this url, you can also" $INFO
+nlbecho "donate" $ERR
+colecho "if you like his work!" $INFO
+colecho "http://stevenhickson.blogspot.fr/2013/05/voice-command-v20-for-raspberry-pi.html" $WARN
+colecho "----------------------------------------------------------------------" $INFO
+thank
