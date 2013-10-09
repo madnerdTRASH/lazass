@@ -1,0 +1,22 @@
+#!/bin/bash
+#DESCRIPTION_LAZASS: Display HDMI/RGB console
+if [ -f lib/lazass ]
+        then
+        source lib/lazass
+else
+        echo "------------------------"
+        echo "LAZASS was not founded!"
+        echo "Installation aborted!"
+        echo "------------------------"
+        exit 1
+fi
+
+# MAIN PROGRAM
+clear
+verify_root
+description "TERMINAL 1"
+clear
+console
+setterm -dump 1 -file /proc/self/fd/1|grep -v '^$'
+console
+thank
