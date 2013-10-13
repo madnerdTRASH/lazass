@@ -1,0 +1,28 @@
+#!/bin/bash
+#DESCRIPTION_LAZASS: I2C detect
+########## LAZASS LIBRARY ###################
+
+if [ -f lib/lazass ]
+	then
+	source lib/lazass
+else
+	echo "------------------------"
+	echo "LAZASS was not founded!"
+	echo "Installation aborted!"
+	echo "------------------------"
+	exit 1
+fi
+
+##########################################
+
+# MAIN PROGRAM ############################
+clear
+#Verify if you are root
+verify_root
+description "I2C Detect"
+messagebox "Raspberry Pi REV1 - i2cbus 0"
+i2cdetect -y 0
+messagebox "Raspberry Pi REV2 - i2cbus 1"
+i2cdetect -y 1
+thank
+

@@ -1,0 +1,52 @@
+#!/bin/bash
+#DESCRIPTION_LAZASS: I2C Install
+########## LAZASS LIBRARY ###################
+
+if [ -f lib/lazass ]
+	then
+	source lib/lazass
+else
+	echo "------------------------"
+	echo "LAZASS was not founded!"
+	echo "Installation aborted!"
+	echo "------------------------"
+	exit 1
+fi
+
+##########################################
+
+# MAIN PROGRAM ############################
+clear
+#Verify if you are root
+verify_root
+description "I2C activator"
+messagebox "Modify modules"
+colecho "We will activate I2C in the /etc/modules file" $ERR
+backup_prompt /etc/modules
+cat /etc/modules |sed s'/i2c-bcm2708//'|sed s'/i2c-dev//' >/tmp/modules
+cp -f /tmp/modules /etc/modules
+echo "i2c-bcm2708" >> /etc/modules
+echo "i2c-dev" >> /etc/modules
+console
+cat /etc/modules
+console
+read
+installer python-smbus
+installer i2c-tools
+messagebox "We will remove I2C from blacklist"
+backup_prompt /etc/modprobe.d/raspi-blacklist.conf
+cat <<EOF > /etc/modprobe.d/raspi-blacklist.conf
+# blacklist spi and i2c by default (many users don't need them)
+
+#blacklist spi-bcm2708
+#blacklist i2c-bcm2708
+EOF
+console
+cat /etc/modprobe.d/raspi-blacklist.conf
+console
+read
+colecho "In order to I2C to be activated, you have to reboot" $INFO
+continue_prompt
+reboot
+thank
+
