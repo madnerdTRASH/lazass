@@ -27,10 +27,10 @@ cat <<EOF > /usr/local/bin/rcc &&
 gcc \$1.cpp RCSwitch.cpp -o \$1 -lwiringPi
 EOF
 nlbecho "Creation of rcc"
-ok
+ok_minibox
 messagebox "Make rcc executable"
 chmod +x /usr/local/bin/rcc
 nlbecho "Permissions of rcc"
-ok
+ok_minibox
 thank
 

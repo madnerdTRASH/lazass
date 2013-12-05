@@ -41,7 +41,6 @@ do
 	searchstring $1 $lazass_function
 	if [ $found == 0 ]
 		then
-		listecho "$lazass_function founded"
 		is_necessary=1
 		extractfunction lib/lazass $lazass_function >> functions.txt
 	fi
@@ -49,35 +48,36 @@ done
 
 
 if [ $is_necessary != 0 ]
-then
-alreadycopied=$(extract_all_functions functions.txt)
+	then
+	alreadycopied=$(extract_all_functions functions.txt)
 
-messagebox "Seeking Functions dependancy"
+	messagebox "Seeking Functions dependancy"
 #Functions extractor for functions
 for lazass_function_dependency in $functions
 do
-	searchstring functions.txt $lazass_function_dependency
-	if [ $? == 0 ]
+	searchstring functions.txt $lazass_function_dependency > /dev/null
+	if [ $found == 0 ]
 		then
 		echo $alreadycopied |grep -q $lazass_function_dependency
-		if [ $? != 0 ]
+		if [ "$?" -ne "0" ]
 			then
-				listecho "$lazass_function_dependency founded"
-				extractfunction lib/lazass $lazass_function_dependency >> functions_dep.txt
+			listecho "$lazass_function_dependency founded"
+			extractfunction lib/lazass $lazass_function_dependency >> functions_dep.txt
 		fi
 	fi
 done
 
-	
-	line_break
-	colecho "This script seems to use LAZASS" $OK
-	erasefromto $1 "## LAZASS LIBRARY ##" "############ END #############" > $1.new
-	cat variables.txt > $1.new
-	echo "############ END #############" >> functions_dep.txt
-	cat functions.txt >> $1.new
-	cat functions_dep.txt >> $1.new
-	erasestring $1 '\#!\/bin\/bash' >> $1.new
-	messagebox "$1.new saved"
+
+line_break
+colecho "This script seems to use LAZASS" $OK
+erasefromto $1 "## LAZASS LIBRARY ##" "############ END #############" > $1.new
+cat variables.txt > $1.new
+echo " " >> functions_dep.txt
+echo "############ END #############" >> functions_dep.txt
+cat functions.txt >> $1.new
+cat functions_dep.txt >> $1.new
+erasestring $1 '\#!\/bin\/bash' >> $1.new
+messagebox "$1.new saved"
 else
 	line_break
 	colecho "LAZASS was clearly not used in this script" $WARN

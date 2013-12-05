@@ -23,7 +23,7 @@ messagebox "Modifying php.ini"
 cat /etc/php5/cgi/php.ini |sed 's/display_errors = Off/display_errors = On/g' > /tmp/php.ini
 cp /tmp/php.ini /etc/php5/cgi/php.ini
 nlbecho "Modification Completed" 
-ok
+ok_minibox
 line_break
 echo "Extract of /etc/php5/cgi/php.ini"
 console

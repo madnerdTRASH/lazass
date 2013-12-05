@@ -27,10 +27,10 @@ cat <<EOF > /usr/local/bin/wcc &&
 gcc \$1.cpp -o \$1 -lwiringPi
 EOF
 nlbecho "Creation of wcc"
-ok
+ok_minibox
 messagebox "Make wcc executable"
 chmod +x /usr/local/bin/wcc
 nlbecho "Permissions of wcc"
-ok
+ok_minibox
 thank
 

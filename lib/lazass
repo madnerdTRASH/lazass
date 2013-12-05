@@ -91,7 +91,7 @@ listecho() {
 
 #Mini Boxes 
 
-ok() {
+ok_minibox() {
 	echo -ne " ["
 	echo -ne $OK
 	echo -ne "OK"
@@ -99,7 +99,7 @@ ok() {
 	echo "]"
 }
 
-skip() {
+skip_minibox() {
 	echo -ne " ["
 	echo -ne $INFO
 	echo -ne "SKIPPED"
@@ -107,7 +107,7 @@ skip() {
 	echo "]"
 }
 
-warning() {
+warning_minibox() {
 	echo -ne " ["
 	echo -ne $WARN
 	echo -ne "WARNING"
@@ -115,7 +115,7 @@ warning() {
 	echo "]"
 }
 
-error() {
+error_minibox() {
 	echo -ne " ["
 	echo -ne $ERR
 	echo -ne "ERROR"
@@ -201,10 +201,10 @@ ping_test() {
 	if [[ $internet == 1 ]]
 	then
 	echo -ne "INTERNET"
-	ok
+	ok_minibox
 	else
 	echo -ne "INTERNET"
-	error
+	error_minibox
 	echo -ne $ERR
 	echo "NO INTERNET CONNECTIVITY DETECTED SCRIPT STOPPED"
 	echo -ne $NORMAL
@@ -305,15 +305,15 @@ installer() {
 		if [[ $? == 0 ]]
 		then
 			echo -ne "RESULT: $1"
-			ok
+			ok_minibox
 		else
 			echo -ne "RESULT: $1"
-			error
+			error_minibox
 			read
 		fi
 	else
 		echo -ne "RESULT: $1"
-		skip
+		skip_minibox
 	fi
 }
 
@@ -333,13 +333,13 @@ messagebox "Create directory $1"
 if [ -d "$directory" ]
 then
 nlbecho "CREATE DIRECTORY $directory"
-skip
+skip_minibox
 else
 mkdir -p $1
 	if [[ $? == 0 ]]
 		then
 		nlbecho "CREATE DIRECTORY"
-		ok
+		ok_minibox
 		else
 		error_box $?
 		echo "CANNOT CREATE DIRECTORY"
@@ -363,7 +363,7 @@ console
 if [[ $giterror == 128 ]]
 	then
 	nlbecho "ALREADY CLONED"
-	skip
+	skip_minibox
 	messagebox "Update $1"
 	cd $3
 	git pull

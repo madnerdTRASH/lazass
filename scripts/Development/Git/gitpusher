@@ -32,10 +32,10 @@ git commit
 git push
 EOF
 nlbecho "Creation of gitpush"
-ok
+ok_minibox
 messagebox "Make gitpush executable"
 chmod +x /usr/local/bin/gitpush
 nlbecho "Permissions of gitpush"
-ok
+ok_minibox
 thank
 
