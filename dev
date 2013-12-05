@@ -1,0 +1,3 @@
+. ./lib/lazass
+messagebox "Type . ./dev to activate Lazass Dev Mode"
+messagebox "Type bash to deactivate Lazass Dev Mode"
