@@ -1,0 +1,36 @@
+#!/bin/bash
+#DESCRIPTION_LAZASS: Name your PI
+########## LAZASS LIBRARY ###################
+
+if [ -f lib/lazass ]
+	then
+	source lib/lazass
+else
+	echo "------------------------"
+	echo "LAZASS was not founded!"
+	echo "Installation aborted!"
+	echo "------------------------"
+	exit 1
+fi
+
+##########################################
+
+# MAIN PROGRAM ############################
+clear
+#Verify if you are root
+verify_root
+description "Pi Namer"
+read -r -p "Name your pi:" piname
+messagebox "Install Netbios service (windows)"
+installer samba
+messagebox "Change/Add netbios name"
+replaceline /etc/samba/smb.conf "netbios name" "        netbios name = $piname" "\[global\]"
+nlbecho "Netbios is now configured";ok_minibox
+restarter samba
+installer libnss-mdns
+messagebox "Modify hostname"
+echo $piname > /etc/hostname
+nlbecho "Zeroconf is now configured";ok_minibox
+hostname $piname
+restarter avahi-daemon
+thank

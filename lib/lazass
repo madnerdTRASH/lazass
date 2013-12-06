@@ -212,6 +212,18 @@ ping_test() {
 	fi
 }
 
+#Is file exist ?
+#$1: Filename
+#return $exist 0:false 1:true
+filexists() {
+	if [ -f $1 ]
+	then
+    exist=1
+	else
+	exist=0
+	fi
+}
+
 ##########################
 ## STRING MANIPULATION   #
 ##########################
@@ -246,6 +258,44 @@ extractfunction() {
 sed -n "/^$2()\(\)/,/^}/p" $1
 }
 
+#Search line and output number
+#$1: File to read
+#$2: String to search
+#return $line line number if no line then -1
+getline() {
+line=$(cat $1 |grep -n "$2"|awk '{print $1}'| head -n 1)
+if [ -z $line ]
+ 	then
+ 	colecho "Line not founded" $ERR
+ 	line=-1
+else
+line=$(echo $line|sed 's/://')
+fi
+}
+
+#Replace a line with a string
+#$1: File to read
+#$2: String to search
+#$3: Replace string
+#$4: If no string add after $4
+replaceline() {
+ getline $1 $2
+ if [ $line != -1 ]
+ then
+sed -i ''"$line"'s/.*/'"$3"'/' $1
+else
+addlineafter "$1" "$4" "$3"
+fi
+}
+
+#Add a line after a string
+#$1: File to read
+#$2: String to search
+#$3: Line to add
+addlineafter() {
+sed -i 's/'"$2"'/'"$2"'\n'"$3"'/' $1
+}
+
 #Search a string in file
 #$1: File to read
 #$2: String to search
@@ -259,6 +309,8 @@ searchstring() {
 		listecho "$2 founded"
 	fi
 }
+
+
 
 ##############
 ## ACTIONS   #
