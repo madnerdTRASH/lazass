@@ -1,5 +1,5 @@
 #!/bin/bash
-#DESCRIPTION_LAZASS: Add User
+#DESCRIPTION_LAZASS: Change password
 ########## LAZASS LIBRARY ###################
 
 if [ -f lib/lazass ]
@@ -17,9 +17,8 @@ description "Add User"
 messagebox "System User List"
 list_users
 line_break
-ask_user "Name of user to add"
+ask_user "Name of user"
 console
-useradd $answer
 passwd $answer
 console
 thank
