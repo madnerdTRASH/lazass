@@ -754,6 +754,7 @@ fi
 
 ##!!!! scripts_menu : Generate a List of scripts
 scriptsmenu() {
+verify_root
 	i=0
 	while read line
 	do
