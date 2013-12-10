@@ -1,0 +1,36 @@
+#!/bin/bash
+#DESCRIPTION_LAZASS: Add/Modify User
+########## LAZASS LIBRARY ###################
+
+if [ -f lib/lazass ]
+        then
+        source lib/lazass
+else
+        echo "------------------------"
+        echo "LAZASS was not founded!"
+        echo "Installation aborted!"
+        echo "------------------------"
+        exit 1
+fi
+##########################################
+description "Add User"
+messagebox "User List"
+list_sambausers
+line_break
+ask_user "Name of user to add/modify"
+console
+smbpasswd -a $answer
+if [ $? == 1 ]
+then
+colecho "The user must exists on the system!" $ERR
+colecho "Would you like to create $answer?" $OK
+messagebox "System User List"
+list_users
+line_break
+continue_prompt
+console
+useradd $answer
+smbpasswd -a $answer
+fi
+console
+thank

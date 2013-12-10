@@ -5,7 +5,7 @@
 ## License:http://www.tldrlegal.com/l/Gplv3                   #
 ## Manual:http://madnerd.org/Create_Scripts_with_Lazass       #
 ###############################################################
-VER="2"
+VER="2.1"
 AUTHOR="Sarrailh Remi"
 LICENSE="Gplv3"
 
@@ -163,6 +163,16 @@ verify_root() {
 		echo -ne $NORMAL
 		exit 1
 	fi
+}
+
+#Return users list
+list_users() {
+ cat /etc/passwd |grep "/bin/bash"|cut -d: -f1
+}
+
+#Return Samba users list (need samba-common-bin/samba)
+list_sambausers() {
+	pdbedit -L|cut -d: -f1
 }
 
 #Return First IP
@@ -340,6 +350,17 @@ updater() {
 	console
 }
 
+#Update APT UNATTENDED
+auto_updater() {
+	export DEBIAN_FRONTEND=noninteractive
+	ping_test "google.com"
+	messagebox "Update Package"
+	console
+	apt-get -q -y update
+	auto_aptget_error $?
+	console
+}
+
 #Install a packet (with error handling)
 #$1 package (apt-get install package)
 installer() {
@@ -351,6 +372,35 @@ installer() {
 		console
 		apt-get install "$1"
 		aptget_error $?
+		console
+		dpkg -s "$1"|grep "Status: install ok installed" > /dev/null 2>&1
+#WAS THE PACKAGE INSTALLED ?
+		if [[ $? == 0 ]]
+		then
+			echo -ne "RESULT: $1"
+			ok_minibox
+		else
+			echo -ne "RESULT: $1"
+			error_minibox
+			read
+		fi
+	else
+		echo -ne "RESULT: $1"
+		skip_minibox
+	fi
+}
+
+#Install a packet UNATTENDED
+auto_installer() {
+	export DEBIAN_FRONTEND=noninteractive
+	messagebox "INSTALL: $1"
+	dpkg -s "$1"|grep "Status: install ok installed" > /dev/null 2>&1
+#IS THE PACKAGE ALREADY INSTALLED ?
+	if [[ $? == 1 ]]
+		then
+		console
+		apt-get -q -y install "$1"
+		auto_aptget_error $?
 		console
 		dpkg -s "$1"|grep "Status: install ok installed" > /dev/null 2>&1
 #WAS THE PACKAGE INSTALLED ?
@@ -423,6 +473,78 @@ if [[ $giterror == 128 ]]
 fi
 }
 
+#Resize Partitions (Based on raspi-config)
+#Verify if the SDCARD is already resize and add a script to resize it at boot if not
+resize_sdcard() {
+messagebox "Resizing SDCARD at reboot"
+freespace=$(parted /dev/mmcblk0 unit GB print free | grep 'Free Space' | tail -n1 | awk '{print $3}')
+if [ $freespace == "0.00GB" ]
+then
+        nlbecho "SDCARD ALREADY RESIZE";skip_minibox
+else
+
+  # Get the starting offset of the root partition
+  PART_START=$(parted /dev/mmcblk0 -ms unit s p | grep "^2" | cut -f 2 -d:)
+  [ "$PART_START" ] || return 1
+  # Return value will likely be error for fdisk as it fails to reload the
+  # partition table because the root fs is mounted
+  fdisk /dev/mmcblk0 <<EOF
+p
+d
+2
+n
+p
+2
+$PART_START
+
+p
+w
+EOF
+
+# now set up an init.d script
+cat <<\EOF > /etc/init.d/resize2fs_once &&
+#!/bin/sh
+### BEGIN INIT INFO
+# Provides:          resize2fs_once
+# Required-Start:
+# Required-Stop:
+# Default-Start: 2 3 4 5 S
+# Default-Stop:
+# Short-Description: Resize the root filesystem to fill partition
+# Description:
+### END INIT INFO
+
+. /lib/lsb/init-functions
+
+case "$1" in
+  start)
+    log_daemon_msg "Starting resize2fs_once" &&
+    resize2fs /dev/mmcblk0p2 &&
+    rm /etc/init.d/resize2fs_once &&
+    update-rc.d resize2fs_once remove &&
+    log_end_msg $?
+    ;;
+  *)
+    echo "Usage: $0 start" >&2
+    exit 3
+    ;;
+esac
+EOF
+  chmod +x /etc/init.d/resize2fs_once &&
+  update-rc.d resize2fs_once defaults &&
+messagebox "SDCARD will be resize at reboot"
+fi
+}
+
+#Unattended backup of a file
+#$1 File to backup
+auto_backup(){
+colecho "THIS WILL OVERWRITE $1 !" $ERR
+colecho "(A backup will be made at $1.backup.TIMESTAMP)" $WARN
+TIMESTAMP=$(date +%y%m%d)'_'$(date +%H%M%S)
+cp $1 $1'.backup.'$TIMESTAMP
+}
+
 ##############
 ## PROMPT    #
 ##############
@@ -436,11 +558,26 @@ continue_prompt() {
 				;;
 				*)
 				echo ""
-				colecho "Installation stopped" $info
+				colecho "Stopped..." $info
 				echo -ne $NORMAL
 				exit 0
 				;;
 			esac
+}
+
+#Ask user a variable
+#$1 Question to ask
+#return $answer
+ask_user(){
+	read -r -p "$1:" answer
+	if [ -z $answer ]
+		then
+		{
+			colecho "No answer provided" $ERR
+			thank
+			exit 1
+		}
+	fi
 }
 
 #Prompt to create a directory
@@ -507,7 +644,7 @@ aptget_error() {
 				echo "INSTALLATION FAILED!!!"
 				echo "You should fixed APT-GET MANUALLY BEFORE RETRY"
 				error_box $apterror
-				exit 0
+				exit 1
 				;;
 			esac
 		;;
@@ -520,7 +657,7 @@ aptget_error() {
 		echo "Installation Aborted !"
 		error_box $apterror
 		echo -ne $NORMAL
-		exit 0
+		exit 1
 		;;
 			
 		*)
@@ -532,9 +669,39 @@ aptget_error() {
 			echo -ne $NORMAL
 				case $response in
 					[yY])
-					exit 0
+					exit 1
 					;;
 				esac
+		;;
+		esac
+		
+}
+
+#Handle APT error (launched when using installer) UNATTENDED
+auto_aptget_error() {
+	apterror=$1
+	case $apterror in 
+		100)
+			echo -ne $ERR
+			echo "" 
+			error_box $apterror
+			echo "DPKG SEEMS TO BE LOCKED !"
+			error_box $apterror
+			echo "RESTARTING INSTALLING..." 
+			rm /var/lib/dpkg/lock
+			rm /var/lib/apt/lists/* -vf
+			$0
+		;;
+		
+		0)
+		echo "OK"
+		;;
+	
+		*)
+			error_box $apterror
+			echo "UNKNOWN APT-GET ERROR!!!"
+			echo "Please send me your error message/code at maditnerd@gmail.com"
+			exit 1
 		;;
 		esac
 		
@@ -548,8 +715,8 @@ aptget_error() {
 # Generate Main Menu #
 mainmenu() {
 ping_test google.com
-
-#Custom Menu
+verify_root
+#Custom Menu	
 menu_options[ 0 ]="scripts"
 
 menu_options[ 1 ]=" ---> Others scripts"
