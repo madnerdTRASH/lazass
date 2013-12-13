@@ -29,6 +29,7 @@ if [ $answer != "pi" ] && [ $answer != "root" ]
 	continue_prompt
 	userdel $answer
 fi
+restarter samba
 thank
 
 

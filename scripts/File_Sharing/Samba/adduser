@@ -32,5 +32,6 @@ console
 useradd $answer
 smbpasswd -a $answer
 fi
+restarter samba
 console
 thank
