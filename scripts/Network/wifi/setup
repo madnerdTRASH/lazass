@@ -1,0 +1,106 @@
+#!/bin/bash
+#DESCRIPTION_LAZASS: Setup your wifi
+########## LAZASS LIBRARY ###################
+
+if [ -f lib/lazass ]
+	then
+	source lib/lazass
+else
+	echo "------------------------"
+	echo "LAZASS was not founded!"
+	echo "Installation aborted!"
+	echo "------------------------"
+	exit 1
+fi
+
+##########################################
+
+# MAIN PROGRAM ############################
+clear
+#Verify if you are root
+verify_root
+description "Setup Wifi"
+
+messagebox "Searching for wireless interface"
+console
+interface=$(iwconfig|grep "IEEE"|awk '{print $1}')
+console
+
+if [ "$interface" == "" ]
+	then
+	messagebox "No Wireless Interface founded"
+	thank
+else
+	messagebox "Scanning for wireless network"
+	essid=$(iwlist $interface scan|grep "ESSID:"|tr -d '"'|sed -e 's/ESSID://')
+	while [ "$essid" == "" ]
+	do
+		nlbecho "Scan Failed ... Retry ...";warning_minibox
+		essid=$(iwlist $interface scan|grep "ESSID:"|tr -d '"'|sed -e 's/ESSID://')
+	done
+
+	for access in $essid
+	do 
+	menu_options[ $i ]=$access
+	(( i++ ))
+	menu_options[ $i ]=""
+	(( i++ ))
+done
+fi
+essid_selected=$(whiptail --backtitle "$AUTHOR - $LICENSE - WIFI SETUP - DOC: smarturl.it/lazass" --title "$interface" --menu "Choose your Wireless Network" 0 0 0 "${menu_options[@]}" 3>&1 1>&2 2>&3 )
+if [ "$essid_selected" == "" ]
+	then
+	colecho "Cancelled" $ERR
+	thank
+fi
+
+password=$(whiptail --inputbox "Wireless Network Password" 0 0 --title "Enter Password" 3>&1 1>&2 2>&3)
+if [ "$password" == "" ]
+	then
+	colecho "Cancelled" $ERR
+	thank
+fi
+
+messagebox "Replace wpa_supplicant"
+backup_prompt /etc/wpa_supplicant/wpa_supplicant.conf
+cat <<\EOF > /etc/wpa_supplicant/wpa_supplicant.conf &&
+ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev
+update_config=1
+network={
+	ssid=SSIDREPLACE
+	psk=PSKREPLACE
+}
+EOF
+
+messagebox "Define ESSID"
+replaceline /etc/wpa_supplicant/wpa_supplicant.conf "ssid=SSIDREPLACE" "ssid=\"$essid_selected\"" "network={"
+
+messagebox "Define Password"
+replaceline "/etc/wpa_supplicant/wpa_supplicant.conf" "psk=PSKREPLACE" "psk=\"$password\"" "ssid="
+
+console
+cat /etc/wpa_supplicant/wpa_supplicant.conf
+console
+
+messagebox "Connecting to wifi"
+console
+ifdown wlan0
+ifup wlan0
+sleep 5
+iwconfig $interface |grep "Not-Associated"
+wifisetup=$?
+if [ "$wifisetup" != 0 ]
+	then
+	console
+	line_break
+	nlbecho "Wifi State: connected";ok_minibox
+	line_break
+	messagebox "Get IP Configuration (DHCP)"
+	dhclient $interface
+	hostname -I |awk '{print $2}'
+else
+	console
+	nlbecho "Wifi State: not connected";error_minibox
+	thank
+fi
+thank

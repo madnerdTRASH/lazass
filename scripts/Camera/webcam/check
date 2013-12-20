@@ -1,0 +1,53 @@
+#!/bin/bash
+#DESCRIPTION_LAZASS: Check WebCam
+
+if [ -f lib/lazass ]
+	then
+	source lib/lazass
+else
+	echo "------------------------"
+	echo "LAZASS was not founded!"
+	echo "Installation aborted!"
+	echo "------------------------"
+	exit 1
+fi
+
+# MAIN PROGRAM
+clear
+verify_root
+description "Test Webcam"
+messagebox "Installing Tools"
+installer v4l-utils
+messagebox "Detect Camera"
+console
+v4l2-ctl  --all
+webcam_detected=$?
+console
+if [ $webcam_detected == 1 ]
+	then
+	colecho "No webcam detected" $ERR
+	thank
+else
+messagebox "Detect Resolution"
+line_break
+resolutions=$(v4l2-ctl --list-formats-ext |grep "Size:"|awk '{print $3}')
+echo $resolutions
+line_break
+fi
+colecho "Test all resolution?"
+continue_prompt
+colecho "Where do you want to save the pictures?" $INFO
+createdir_prompt
+installer fswebcam
+messagebox "Testing Resolution"
+name=$(lsusb |grep -i "cam" |awk '{ $1=""; $2=""; $3=""; $4=""; $5=""; $6=""; print $0 }'|tr -d ' ')
+
+for resolution in $resolutions
+do
+colecho "Testing $resolution" $INFO
+console
+fswebcam -r "$resolution" -S 5 --save "$directory"/"$name"-test"$resolution".jpg
+console
+done
+
+thank

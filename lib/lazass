@@ -279,7 +279,7 @@ if [ -z $line ]
  	colecho "Line not founded" $ERR
  	line=-1
 else
-line=$(echo $line|sed 's/://')
+line=$(echo $line|cut -d: -f1)
 fi
 }
 
