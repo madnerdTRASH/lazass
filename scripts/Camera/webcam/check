@@ -18,6 +18,7 @@ verify_root
 description "Test Webcam"
 messagebox "Installing Tools"
 installer v4l-utils
+installer fswebcam
 messagebox "Detect Camera"
 console
 v4l2-ctl  --all
