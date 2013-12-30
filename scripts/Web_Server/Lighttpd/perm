@@ -1,0 +1,22 @@
+#!/bin/bash
+#DESCRIPTION_LAZASS: Correct permissions
+if [ -f lib/lazass ]
+	then
+	source lib/lazass
+else
+	echo "------------------------"
+	echo "LAZASS was not founded!"
+	echo "Installation aborted!"
+	echo "------------------------"
+	exit 1
+fi
+
+# MAIN PROGRAM
+clear
+verify_root
+description "LIGHTTPD PERMISSIONS"
+messagebox "Reset Permissions"
+chown -R www-data:www-data /var/www
+chmod 755 -R /var/www
+nlbecho "Permissions Reset";ok_minibox
+

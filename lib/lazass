@@ -714,7 +714,7 @@ auto_aptget_error() {
 
 # Generate Main Menu #
 mainmenu() {
-ping_test google.com
+#ping_test google.com
 verify_root
 #Custom Menu	
 menu_options[ 0 ]="scripts"
