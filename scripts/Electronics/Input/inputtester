@@ -1,0 +1,22 @@
+#!/bin/bash
+#DESCRIPTION_LAZASS: Test a digital input (button)
+if [ -f lib/lazass ]
+	then
+	source lib/lazass
+else
+	echo "------------------------"
+	echo "LAZASS was not founded!"
+	echo "Installation aborted!"
+	echo "------------------------"
+	exit 1
+fi
+
+# MAIN PROGRAM
+clear
+verify_root
+description "Button Tester"
+display_gpio
+read -p "GPIO:" gpio
+bin/buttontester $gpio
+thank
+
