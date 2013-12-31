@@ -1,0 +1,26 @@
+#!/bin/bash
+#DESCRIPTION_LAZASS: Activate HTTPS
+if [ -f lib/lazass ]
+	then
+	source lib/lazass
+else
+	echo "------------------------"
+	echo "LAZASS was not founded!"
+	echo "Installation aborted!"
+	echo "------------------------"
+	exit 1
+fi
+
+# MAIN PROGRAM
+clear
+verify_root
+description "Activate HTTPS"
+messagebox "Enable SSL"
+ln -snv /etc/lighttpd/conf-available/10-ssl.conf /etc/lighttpd/conf-enabled/
+messagebox "Create certificate"
+openssl req -new -x509 -keyout /etc/lighttpd/server.pem -out /etc/lighttpd/server.pem -days 365 -nodes
+messagebox "Secure file"
+chmod 400 /etc/lighttpd/server.pem
+chown www-data:www-data /etc/lighttpd/server.pem
+messagebox "Restart Lighttpd"
+service lighttpd restart
