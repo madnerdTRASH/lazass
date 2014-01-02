@@ -33,4 +33,5 @@ echo $piname > /etc/hostname
 nlbecho "Zeroconf is now configured";ok_minibox
 hostname $piname
 restarter avahi-daemon
+service hostname.sh start
 thank
