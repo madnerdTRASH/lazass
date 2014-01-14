@@ -49,5 +49,5 @@ chmod +x /etc/init.d/vncboot
 messagebox "Add script at startup"
 update-rc.d vncboot defaults
 messagebox "Launching vncserver for first time configuration"
-vncserver :1 -geometry 1280x800 -depth 16
+service vncboot start
 thank
