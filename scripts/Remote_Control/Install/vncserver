@@ -1,0 +1,53 @@
+#!/bin/bash
+#DESCRIPTION_LAZASS: Install vncserver (remote control)
+if [ -f lib/lazass ]
+	then
+	source lib/lazass
+else
+	echo "------------------------"
+	echo "LAZASS was not founded!"
+	echo "Installation aborted!"
+	echo "------------------------"
+	exit 1
+fi
+
+clear
+verify_root
+description "Vnc Server"
+installer tightvncserver
+messagebox "Create Startup Script"
+cat <<EOF > /etc/init.d/vncboot
+### BEGIN INIT INFO
+# Provides: vncserver
+# Required-Start: networking
+# Required-stop:
+# Default-Start: 2 3 4 5
+# Default-Stop: 0 1 6
+# Description:
+### END INIT INFO
+
+#!/bin/sh
+# /etc/init.d/vncboot
+VNCUSER='pi'
+case "\$1" in
+start)
+su \$VNCUSER -c '/usr/bin/tightvncserver :1 -rfbport 5900 -geometry 1280x800 -depth 24'
+echo "Starting TightVNC Server for \$VNCUSER "
+;;
+stop)
+pkill Xtightvnc
+echo "TightVNC Server stopped"
+;;
+*)
+echo "Usage: /etc/init.d/vncboot {start|stop}"
+exit 1
+;;
+esac
+exit 0
+EOF
+chmod +x /etc/init.d/vncboot
+messagebox "Add script at startup"
+update-rc.d vncboot defaults
+messagebox "Launching vncserver for first time configuration"
+vncserver :1 -geometry 1280x800 -depth 16
+thank
