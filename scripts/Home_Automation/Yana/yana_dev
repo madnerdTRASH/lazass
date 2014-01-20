@@ -25,7 +25,7 @@ colecho "AND ALL HIS DEPENDANCIES (lighttpd/sqlite)" $ERR
 line_break
 
 read -r -p "User (ex:maditnerd):" user
-read -r -p "Branch (ex:i18n):" branch
+read -r -p "Branch (ex:dev):" branch
 read -r -p "Where (ex:yana)" where
 
 colecho "Install YANA fork by $user branch $branch in /var/www/$where" $ERR
@@ -33,9 +33,7 @@ continue_prompt
 
 #Install lighttpd sqlite
 launchscript "Web_Server/Lighttpd/install"
-
 installer git-core 
-
 
 #Install YANA
 gitcloner "YANA Server" "-b $branch https://github.com/$user/yana-server.git" "/var/www/$where"
