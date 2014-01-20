@@ -20,7 +20,7 @@ clear
 #Verify if you are root
 verify_root
 description "Securing Yana Installation"
-colecho "This script will erase install.php and create /etc/yana" $INFO
+colecho "This script will erase install.php" $INFO
 line_break
 console
 cd /var/www;ls -d */ |grep "yana"
@@ -28,8 +28,5 @@ console
 read -p "Choose the directory of YANA Server:" yana
 console
 rm -vi /var/www/$yana/install.php
-mkdir /etc/yana
-chmod 700 /etc/yana
-chown www-data:www-data /etc/yana
 console
 thank

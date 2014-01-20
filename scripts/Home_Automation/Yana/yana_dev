@@ -41,6 +41,13 @@ gitcloner "YANA Server" "-b $branch https://github.com/$user/yana-server.git" "/
 messagebox "Permissions Settings for webserver"
 chown -R www-data:www-data /var/www/$where
 
+#Create YANA etc
+messagebox "Create /etc/yana"
+mkdir /etc/yana
+chmod 700 /etc/yana
+chown www-data:www-data /etc/yana
+
+
 #Permissions for electronics
 launchscript "Home_Automation/Yana/yana_perm"
 line_break
