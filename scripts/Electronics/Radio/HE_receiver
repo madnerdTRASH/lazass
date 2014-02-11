@@ -1,0 +1,23 @@
+#!/bin/bash
+#DESCRIPTION_LAZASS: Test a Radio Receiver (Chacon/HomeEasy)
+if [ -f lib/lazass ]
+	then
+	source lib/lazass
+else
+	echo "------------------------"
+	echo "LAZASS was not founded!"
+	echo "Installation aborted!"
+	echo "------------------------"
+	exit 1
+fi
+
+# MAIN PROGRAM
+clear
+verify_root
+description "433/315Mhz HomeEasy/Chacon Radio Receiver Tester"
+messagebox "Press ctrl-c to quit"
+display_gpio
+read -p "GPIO:" gpio
+bin/HEreceive $gpio
+thank
+

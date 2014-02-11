@@ -23,7 +23,12 @@ description "Serial Test"
 messagebox "Launching Minicom"
 colecho "We are going to launch minicom to verify if the transmission are correct" $INFO
 colecho "To exit minicom press CTRL-A x" $ERR
-continue_prompt
 installer minicom
-minicom -b 9600 -o -D /dev/ttyACM0
+messagebox "List of Serial Port"
+console
+ls /dev/ttyAMA* /dev/ttyUSB* /dev/ttyACM* /dev/ttyS* 2>/dev/null
+console
+echo "Serial Port:"
+read port
+minicom -b 9600 -o -D $port
 thank
