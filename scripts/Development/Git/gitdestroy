@@ -1,0 +1,32 @@
+#!/bin/bash
+#DESCRIPTION_LAZASS: Erase any trace of last commit (forced)
+if [ -f lib/lazass ]
+	then
+	source lib/lazass
+else
+	echo "------------------------"
+	echo "LAZASS was not founded!"
+	echo "Installation aborted!"
+	echo "------------------------"
+	exit 1
+fi
+
+# MAIN PROGRAM
+clear
+verify_root
+description "Cloning Repo inside /var/www"
+installer git-core
+echo "what is your repo? Ex: /var/www/repo"
+read reponame
+jumpline
+echo "We are going to DESTROY the last commit and any local changes !!!"
+continue_prompt
+cd $reponame
+messagebox "Reset Branch (this will remove any local changes)"
+git reset --hard HEAD~1
+messagebox "Prepare commit"
+git add -A
+git commit
+messagebox "Last chance to avoid destroying the remote branch!"
+continue_prompt
+git push -F

@@ -1,0 +1,29 @@
+#!/bin/bash
+#DESCRIPTION_LAZASS: Git clone github repo in /var/www
+if [ -f lib/lazass ]
+	then
+	source lib/lazass
+else
+	echo "------------------------"
+	echo "LAZASS was not founded!"
+	echo "Installation aborted!"
+	echo "------------------------"
+	exit 1
+fi
+
+# MAIN PROGRAM
+clear
+verify_root
+description "Cloning Repo inside /var/www"
+installer git-core
+echo "what is your repo? Ex: maditnerd/lazass"
+read reponame
+jumpline
+echo "Would you like to use a different name ?"
+colecho " Ex: lazass_fork --> /var/www/lazass_fork" $OK
+nlbecho "Type";nlbecho "Enter" $INFO;echo "for default name"
+read name
+cd /var/www
+git clone "https://github.com/"$reponame $name
+
+
