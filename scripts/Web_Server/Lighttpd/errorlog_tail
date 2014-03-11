@@ -14,7 +14,7 @@ fi
 # MAIN PROGRAM
 clear
 verify_root
-description "READ ACCESS LOG"
+description "READ ERROR LOG"
 console
 tail -f /var/log/lighttpd/error.log
 console
