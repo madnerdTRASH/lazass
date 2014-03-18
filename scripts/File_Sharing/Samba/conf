@@ -20,5 +20,8 @@ clear
 verify_root
 description "Configuring Samba"
 installer samba
+piname=$(cat /etc/samba/smb.conf |grep "netbios name" |awk '{print $4}')
 confmenu "samba" "/etc/samba/smb.conf"
+replaceline /etc/samba/smb.conf "netbios name = pi" "        netbios name = $piname" "\[global\]"
+restarter samba
 thank

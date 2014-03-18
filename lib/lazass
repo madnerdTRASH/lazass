@@ -852,11 +852,6 @@ case $conf_file in
 				backup_prompt $conf_origin
 				messagebox "Copy file"
 				cp $path_lazass/conf/$conf_dir/$conf_file $conf_origin
-				restarter $conf_dir
-				colecho "Would you like to customize smb.conf ?" $INFO
-				continue_prompt
-				nano $conf_origin
-				restarter $conf_dir
 				;;
 esac
 }
