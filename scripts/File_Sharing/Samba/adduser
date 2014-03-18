@@ -15,6 +15,7 @@ fi
 ##########################################
 description "Add User"
 messagebox "User List"
+installer samba-common-bin
 list_sambausers
 line_break
 ask_user "Name of user to add/modify"

@@ -15,6 +15,7 @@ fi
 ##########################################
 description "Delete Samba Users"
 messagebox "User List"
+installer samba-common-bin
 pdbedit -L|cut -d: -f1
 line_break
 ask_user "Name of user to delete"
