@@ -17,7 +17,7 @@ description "Add User"
 messagebox "System User List"
 list_users
 line_break
-ask_user "Name of user"
+ask_user "User's name:"
 console
 passwd $answer
 console
