@@ -23,7 +23,7 @@ description "Setup Wifi"
 
 messagebox "Searching for wireless interface"
 console
-interface=$(iwconfig|grep "IEEE"|awk '{print $1}')
+interface=$(iwconfig|grep "unassociated"|awk '{print $1}')
 console
 
 if [ "$interface" == "" ]
