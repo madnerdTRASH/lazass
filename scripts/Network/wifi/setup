@@ -96,7 +96,6 @@ if [ "$wifisetup" != 0 ]
 	nlbecho "Wifi State: connected";ok_minibox
 	line_break
 	messagebox "Get IP Configuration (DHCP)"
-	dhclient $interface
 	hostname -I |awk '{print $2}'
 else
 	console
