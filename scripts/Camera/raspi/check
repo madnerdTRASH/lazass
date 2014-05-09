@@ -1,0 +1,19 @@
+#!/bin/bash
+#DESCRIPTION_LAZASS: Check RaspiCam
+
+if [ -f lib/lazass ]
+	then
+	source lib/lazass
+else
+	echo "------------------------"
+	echo "LAZASS was not founded!"
+	echo "Installation aborted!"
+	echo "------------------------"
+	exit 1
+fi
+
+# MAIN PROGRAM
+clear
+verify_root
+description "Display Camera on screen"
+raspivid -f -t 0
