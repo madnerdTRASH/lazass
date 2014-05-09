@@ -21,9 +21,11 @@ clear
 verify_root
 description "Test IR LED"
 messagebox "Turn ON IR LED"
+gpio mode 3 out
 gpio write 3 1
 colecho "Take a camera and see if the LED is ON" $ERR
 read
 messagebox "Turn OFF IR LED"
 gpio write 3 0
+gpio reset
 thank

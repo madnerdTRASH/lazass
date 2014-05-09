@@ -20,26 +20,23 @@ clear
 #Verify if you are root
 verify_root
 description "IR Receiver/Sender Installer"
-messagebox "Modify modules"
+messagebox "This script will modify /etc/modules and /etc/lirc/hardware.conf"
+continue_prompt
 colecho "We will activate LIRC in the /etc/modules file" $ERR
-backup_prompt /etc/modules
+auto_backup /etc/modules
 cat /etc/modules |sed s'/lirc_dev//'|sed s'/lirc_rpi gpio_in_pin=23 gpio_out_pin=22//' >/tmp/modules
 cp -f /tmp/modules /etc/modules
 echo "lirc_dev" >> /etc/modules
 echo "lirc_rpi gpio_in_pin=23 gpio_out_pin=22" >> /etc/modules
-console
-cat /etc/modules
-console
-read
 installer lirc
 messagebox "Hardware LIRC settings"
-backup_prompt /etc/lirc/hardware.conf
+auto_backup /etc/lirc/hardware.conf
 cat <<EOF > /etc/lirc/hardware.conf
 ########################################################
 # /etc/lirc/hardware.conf
 #
 # Arguments which will be used when launching lircd
-LIRCD_ARGS="--uinput"
+LIRCD_ARGS="--uinput --listen=127.0.0.1"
 
 # Don't start lircmd even if there seems to be a good config file
 # START_LIRCMD=false
@@ -61,17 +58,12 @@ LIRCD_CONF=""
 LIRCMD_CONF=""
 ########################################################
 EOF
-console
-cat /etc/lirc/hardware.conf
-console
-read
 messagebox "Wiring"
 display_gpio
 colecho "IR Receiver : GPIO 4" $WARN
 colecho "IR LED : GPIO 3" $WARN
-colecho "We will stop the Raspberry Pi now, so you can plug the cable" $ERR
-colecho "You can modify gpio inside /etc/modules" $INFO
-colecho "Even if you have already wired everything, you still have to reboot" $INFO
+colecho "You can modify gpio inside /etc/modules" $OK
+messagebox "Do you want to halt your system ?"
 continue_prompt
 halt
 thank
