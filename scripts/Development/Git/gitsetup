@@ -22,13 +22,18 @@ installer git-core
 
 #NAME ASK
 messagebox "GIT CONFIGURATION"
-echo "What is your nickname?"
+echo "What is your nickname (not your email)?"
 read name
 echo ""
 echo "What is your github email?"
 read email
 git config --global user.name "$name"
 git config --global user.email "$email"
+
+messagebox "Password is now cached for 15 minutes"
+git config --global credential.helper "cache --timeout=3600"
+colecho "http://stackoverflow.com/questions/5343068/is-there-a-way-to-skip-password-typing-when-using-https-github" $ERR
+
 messagebox "This is your git configuration"
 console
 git config -l

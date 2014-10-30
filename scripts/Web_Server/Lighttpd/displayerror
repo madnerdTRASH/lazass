@@ -16,7 +16,7 @@ clear
 verify_root
 description "LIGHTTPD DISPLAY ERROR"
 jumpline
-colecho "This script will modify PHP.ini to display error" $INFO
+colecho "This script will modify PHP.ini to display error and install xdebug" $INFO
 backup_prompt /etc/php5/cgi/php.ini
 
 messagebox "Modifying php.ini"
@@ -29,4 +29,7 @@ echo "Extract of /etc/php5/cgi/php.ini"
 console
 cat /etc/php5/cgi/php.ini |grep "display_errors ="
 console
+messagebox "Install xdebug"
+installer "php5-xdebug"
+restarter lighttpd
 thank
