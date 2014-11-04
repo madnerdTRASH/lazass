@@ -23,8 +23,13 @@ description "Pi Namer"
 read -r -p "Name your pi:" piname
 messagebox "Install Netbios service (windows)"
 installer samba
+
 messagebox "Change/Add netbios name"
 replaceline /etc/samba/smb.conf "netbios name" "        netbios name = $piname" "\[global\]"
+
+messagebox "Change /etc/hosts"
+replaceline /etc/hosts "127.0.1.1" "127.0.1.1	$piname" ""
+
 nlbecho "Netbios is now configured";ok_minibox
 restarter samba
 installer libnss-mdns
