@@ -477,9 +477,10 @@ fi
 #Resize Partitions (Based on raspi-config)
 #Verify if the SDCARD is already resize and add a script to resize it at boot if not
 resize_sdcard() {
+auto_installer parted
 messagebox "Resizing SDCARD at reboot"
-freespace=$(parted /dev/mmcblk0 unit GB print free | grep 'Free Space' | tail -n1 | awk '{print $3}')
-if [ $freespace == "0.00GB" ]
+isresize=$(parted /dev/mmcblk0 unit GB print free | grep 'Free Space';echo $?)
+if [ $isresize == 1 ]
 then
         nlbecho "SDCARD ALREADY RESIZE";skip_minibox
 else
